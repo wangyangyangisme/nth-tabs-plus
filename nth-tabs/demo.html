@@ -28,16 +28,16 @@
 			//基于bootstrap tab的自定义多标签的jquery实用插件，滚动条依赖jquery.scrollbar，图标依赖font-awesome
             nthTabs = $("#editor-tabs").nthTabs();
             nthTabs.addTab({
-                id:'a',
-                title:'孙悟空',
-                content:'看我七十二变',
+                id:'home',
+                title:'首页',
+                content:'首页',
+				active:true,
+				allowClose:false,
             }).addTab({
 				/*换个姿势*/
                 id:'b',
                 title:'猪八戒-关不掉',
                 content:'高老庄娶媳妇',
-				active:true,
-				allowClose:false,
             }).addTab({
                 id:'c',
                 title:'沙和尚',
@@ -70,28 +70,12 @@
                 id:'j',
                 title:'熬夜写的啊',
                 content:'码农苦逼~',
-            }).setActTab("#c");
-			
-			
-			$.contextMenu({
-				selector: '.nav-tabs li', 
-				callback: function(key, options) {
-					var m = "clicked: " + key;
-					window.console && console.log(m) || alert(m); 
-				},
-				items: {
-					"edit": {name: "Edit", icon: "edit"},
-					"cut": {name: "Cut", icon: "cut"},
-				    "copy": {name: "Copy", icon: "copy"},
-					"paste": {name: "Paste", icon: "paste"},
-					"delete": {name: "Delete", icon: "delete"},
-					"sep1": "---------",
-					"quit": {name: "Quit", icon: function(){
-						return 'context-menu-icon context-menu-icon-quit';
-					}}
-				}
-			});
+            }).setActTab("#home");
+		
         });
+		
+		
+
     </script>
 </head>
 <body>
@@ -104,7 +88,7 @@
 	<div class="row" style="margin-top:20px;">
 		<div class="col-md-12" style="line-height:50px;">
 			<button type="button" class="btn btn-primary" onclick="nthTabs.delTab('f')">关闭潘金莲</button>
-			<button type="button" class="btn btn-primary" onclick="nthTabs.addTab({id:'bgj',title:'白骨精',content:'老白'})">添加白骨精</button>
+			<button type="button" class="btn btn-primary" onclick="nthTabs.addTab({id:parseInt(Math.random() * 100000 + 1, 10),title:'白骨精',content:'老白'})">添加白骨精</button>
 			<button type="button" class="btn btn-primary" onclick="nthTabs.setActTab('e')">切换到武松</button>
 			<button type="button" class="btn btn-primary" onclick="nthTabs.locationTab()">定位到当前选项卡</button>
 			<button type="button" class="btn btn-primary" onclick="nthTabs.delOtherTab()">关闭其他</button>
