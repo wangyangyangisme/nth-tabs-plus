@@ -14,7 +14,7 @@
 		};
 		var settings = $.extend({},defaults,options);
 		var template = '<div class="page-tabs"><a href="#" class="roll-nav roll-nav-left"><span class="fa fa-backward"></span></a><div class="content-tabs"><div class="content-tabs-container"><ul class="nav nav-tabs"></ul></div></div><a href="#" class="roll-nav roll-nav-right"><span class="fa fa-forward"></span></a><div class="dropdown roll-nav right-nav-list"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-chevron-down"></span></a><ul class="dropdown-menu dropdown-menu-right"><li><a href="#" class="tab-location">定位当前选项卡</a></li><li><a href="#" class="tab-close-current">关闭当前选项卡</a></li><li role="separator" class="divider"></li><li><a href="#" class="tab-close-other">关闭其他选项卡</a></li><li><a href="#" class="tab-close-all">关闭全部选项卡</a></li><li role="separator" class="divider"></li><li class="scrollbar-outer tab-list-scrollbar"><div class="tab-list-container"><ul class="tab-list"></ul></div></li></ul></div></div><div class="tab-content" style="padding:20px"></div>';
-		
+
 		//各种api
 		var methods = {
 			//初始化
@@ -71,8 +71,8 @@
 				tabContent.push(options.content);
 				tabContent.push('</div>');
 				nthTabs.find(".tab-content").append(tabContent.join(''));
-				
-				
+
+
 				$('.nav-tabs li').last().mousedown(function(event){
 					if(event.which == 3){
 						var itemId = $(this).find("a").attr("href").replace('#','');
@@ -80,7 +80,7 @@
 
 					}
 				});
-				
+
 
 				return methods;
 			},
@@ -120,14 +120,14 @@
 				return methods;
 			},
 			//删除单个选项卡
-			delTab:function (tabId) {			
+			delTab:function (tabId) {
 				if (tabId == "home") {
 					return
 				}
-				
+
 				tabId = tabId ==undefined ? methods.getActiveId() : tabId;
 				tabId = tabId.indexOf('#')>-1 ? tabId : '#'+tabId;
-				
+
 				var navTabA = nthTabs.find("[href='"+tabId+"']");
 				//如果关闭的是激活状态的选项卡
 				if(navTabA.parent().attr('class')=='active'){
@@ -148,14 +148,31 @@
 			},
 			//删除其他选项卡
 			delOtherTab:function(){
-				nthTabs.find(".nav-tabs li").not('[class="active"]').remove();
-				nthTabs.find(".tab-content div").not('[class="tab-pane active"]').remove();
+				nthTabs.find(".nav-tabs li").not('[class="active"]').each(function (i,e) {
+					if ($(this).find('a').attr('href') !== '#home') {
+						$(this).remove();
+					}
+				});
+				nthTabs.find(".tab-content div").not('[class="tab-pane active"]').each(function (i,e) {
+					if ($(this).attr('id') !== '#home') {
+						$(this).remove();
+					}
+				});
 				return methods;
 			},
 			//删除全部选项卡
 			delAllTab:function(){
-				nthTabs.find(".nav-tabs li").remove();
-				nthTabs.find(".tab-content div").remove();
+				nthTabs.find(".nav-tabs li").each(function (i,e) {
+					if ($(this).find('a').attr('href') !== '#home') {
+						$(this).remove();
+					}
+				});
+				nthTabs.find(".tab-content div").each(function (i,e) {
+					if ($(this).attr('id') !== '#home') {
+						$(this).remove();
+					}
+				});
+				methods.setActTab('home')
 				return methods;
 			},
 			//切换活动选项卡
@@ -169,14 +186,23 @@
 			},
 			// 关闭左侧标签
 			closeLeftTab:function(){
-				var prevAll = nthTabs.find('.nav-tabs li[class="active"]').prevAll(); // 获取选中页签前面的所有兄弟节点数组
-				var prevIframeAll = nthTabs.find('.tab-content div[class="tab-pane active"]').prevAll();
-				prevAll.remove();
-				prevIframeAll.remove();
+				// 获取选中页签前面的所有兄弟节点数组
+				nthTabs.find('.nav-tabs li[class="active"]').prevAll().each(function (i,e) {
+					if ($(this).find('a').attr('href') !== '#home') {
+						$(this).remove();
+					}
+				});
+				nthTabs.find('.tab-content div[class="tab-pane active"]').prevAll().each(function (i,e) {
+					if ($(this).attr('id') !== '#home') {
+						$(this).remove();
+					}
+				});
+				//prevAll.remove();
+				//prevIframeAll.remove();
 			},
 			// 关闭右侧标签
 			closeRightTab:function(){
-				var nextAll = nthTabs.find('.nav-tabs li[class="active"]').nextAll(); // 与关闭左侧同理，获取选中页签之后的所有兄弟节点数组
+				var nextAll = nthTabs.find('.nav-tabs li[class="active"]').nextAll();
 				var nextIframeAll = nthTabs.find('.tab-content div[class="tab-pane active"]').nextAll();
 				nextAll.remove();
 				nextIframeAll.remove();
@@ -267,9 +293,9 @@
 			}
 		};
 		methods.init();
-		
+
 		$.contextMenu({
-			selector: '.nav-tabs', 
+			selector: '.nav-tabs li a',
 			callback: function(key, options) {
 				var id = methods.getActiveId();
 				switch(key) {
@@ -291,7 +317,7 @@
 					methods.locationTab();
 					break;
 				}
-		
+
 			},
 			items: {
 				"closeThisTab": {name: "关闭当前标签", icon: "edit"},
