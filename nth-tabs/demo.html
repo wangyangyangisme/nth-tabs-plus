@@ -14,8 +14,11 @@
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="https://cdn.bootcss.com/jquery.scrollbar/0.2.11/jquery.scrollbar.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery.scrollbar/0.2.11/jquery.scrollbar.min.js"></script>
-	<link href="css/nth.tabs.min.css" rel="stylesheet">
-	<script src="js/nth.tabs.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+	<link href="css/nth.tabs.css" rel="stylesheet">
+	<script src="js/nth.tabs.js"></script>
     <style>
     </style>
     <script>
@@ -68,6 +71,26 @@
                 title:'熬夜写的啊',
                 content:'码农苦逼~',
             }).setActTab("#c");
+			
+			
+			$.contextMenu({
+				selector: '.nav-tabs li', 
+				callback: function(key, options) {
+					var m = "clicked: " + key;
+					window.console && console.log(m) || alert(m); 
+				},
+				items: {
+					"edit": {name: "Edit", icon: "edit"},
+					"cut": {name: "Cut", icon: "cut"},
+				    "copy": {name: "Copy", icon: "copy"},
+					"paste": {name: "Paste", icon: "paste"},
+					"delete": {name: "Delete", icon: "delete"},
+					"sep1": "---------",
+					"quit": {name: "Quit", icon: function(){
+						return 'context-menu-icon context-menu-icon-quit';
+					}}
+				}
+			});
         });
     </script>
 </head>

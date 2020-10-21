@@ -64,6 +64,7 @@
 }
 
 .nth-tabs .roll-nav-right {
+	z-index: auto;
 	right: 40px;
 	border-left: 1px solid #E7E7E7;
 	border-bottom: 1px solid #E7E7E7;
@@ -87,6 +88,7 @@
 }
 /*tab list*/
 .nth-tabs .right-nav-list {
+	z-index: auto;
 	right: 0;
 	border-left: 1px solid #E7E7E7;
 	border-bottom: 1px solid #E7E7E7;
